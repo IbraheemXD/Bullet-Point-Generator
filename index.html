@@ -19,11 +19,37 @@
       margin-top: 10px;
     }
 
+    body {
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* Light text color */
+    }
+
+    h1 {
+    color: #ffffff; /* Light color for headings */
+    }
+
+    .btn {
+    background-color: #303030; /* Dark background color for buttons */
+    color: #ffffff; /* Light text color for buttons */
+    border-color: #303030; /* Dark border color for buttons */
+    }
+    /* Styling for unordered lists */
+ul {
+    color: #303030; 
+}
+
+/* Styling for list items */
+li {
+    color: #303030; /* Light text color for list items */
+}
+.icon-size {
+    font-size: 24px;
+  }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="mb-4">Bullet Point Generator <button type="button" class="btn btn-light" data-toggle="tooltip" title="Made by Ibraheem"><i class="bi bi-info-square"></i>    </button></h1>
+    <h1 class="mb-4">Bullet Point Generator <i class="bi bi-info-circle icon-size" data-toggle="tooltip" title="Made by Ibraheem"></i></h1>
     <div class="form-group">
         <label for="paragraphInput">Divider:</label>
         <textarea class="form-control" id="dividerInput" rows="1">- </textarea>
