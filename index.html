@@ -22,6 +22,10 @@
 <body>
   <div class="container">
     <h1 class="mb-4">Bullet Point Generator</h1>
+    <div class="form-group">
+        <label for="paragraphInput">Divider:</label>
+        <textarea class="form-control" id="dividerInput" rows="1">- </textarea>
+      </div>
     <form id="bulletForm">
       <div class="form-group">
         <label for="paragraphInput">Enter your paragraph:</label>
@@ -46,15 +50,16 @@
       });
 
       $('#copyButton').click(function() {
-        copyToClipboard($('#bulletPoints').text());
+        copyToClipboard($('#bulletPoints').text()); 
       });
 
       function generateBulletPoints() {
         var paragraph = $('#paragraphInput').val().trim();
+        var divider = $('#dividerInput').val();
         var paragraphs = paragraph.split('\n');
         var bulletList = '<ul class="list-group">';
         for (var i = 0; i < paragraphs.length; i++) {
-          bulletList += '<li class="list-group-item">' + (i + 1) + ': ' + capitalizeFirstLetter(paragraphs[i]) + '</li>\n';
+          bulletList += '<li class="list-group-item">' + (i + 1) + divider + capitalizeFirstLetter(paragraphs[i]) + '</li>\n';
         }
         bulletList += '</ul>';
         $('#bulletPoints').html(bulletList);
