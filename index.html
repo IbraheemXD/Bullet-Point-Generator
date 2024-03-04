@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bullet Point Generator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Additional Styles */
+    .container {
+      margin-top: 50px;
+    }
+    #bulletPoints {
+      margin-top: 20px;
+    }
+    #copyButton {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Bullet Point Generator</h1>
+    <form id="bulletForm">
+      <div class="form-group">
+        <label for="paragraphInput">Enter your paragraph:</label>
+        <textarea class="form-control" id="paragraphInput" rows="5"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Generate Bullet Points</button>
+    </form>
+    <div id="bulletPoints"></div>
+    <button id="copyButton" class="btn btn-success">Copy Bullet Points</button>
+  </div>
+
+  <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#bulletForm').submit(function (event) {
+        event.preventDefault();
+        generateBulletPoints();
+      });
+
+      $('#copyButton').click(function() {
+        copyToClipboard($('#bulletPoints').text());
+      });
+
+      function generateBulletPoints() {
+        var paragraph = $('#paragraphInput').val().trim();
+        var paragraphs = paragraph.split('\n');
+        var bulletList = '<ul class="list-group">';
+        for (var i = 0; i < paragraphs.length; i++) {
+          bulletList += '<li class="list-group-item">' + (i + 1) + ': ' + capitalizeFirstLetter(paragraphs[i]) + '</li>\n';
+        }
+        bulletList += '</ul>';
+        $('#bulletPoints').html(bulletList);
+      }
+
+      function copyToClipboard(text) {
+        var $temp = $("<textarea>");
+        $("body").append($temp);
+        $temp.val(text).select();
+        document.execCommand("copy");
+        $temp.remove();
+      }
+      function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+       }
+    });
+  </script>
+</body>
+</html>
