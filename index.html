@@ -1,112 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bullet Point Generator</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    /* Additional Styles */
-    .container {
-      margin-top: 50px;
-    }
-    #bulletPoints {
-      margin-top: 20px;
-    }
-    #copyButton {
-      margin-top: 10px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bullet Point Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
 
-    body {
-    background-color: #121212; /* Dark background color */
-    color: #ffffff; /* Light text color */
-    }
+        body {
+            background-color: #1a1a1a;
+            color: #e5e5e5;
+            min-height: 100vh;
+            padding: 2rem;
+        }
 
-    h1 {
-    color: #ffffff; /* Light color for headings */
-    }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    .btn {
-    background-color: #303030; /* Dark background color for buttons */
-    color: #ffffff; /* Light text color for buttons */
-    border-color: #303030; /* Dark border color for buttons */
-    }
-    /* Styling for unordered lists */
-ul {
-    color: #303030; 
-}
+        .card {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
-/* Styling for list items */
-li {
-    color: #303030; /* Light text color for list items */
-}
-.icon-size {
-    font-size: 24px;
-  }
-  </style>
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #a0a0a0;
+        }
+
+        textarea, .output-area {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #e5e5e5;
+            border: 1px solid #404040;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        .output-area {
+            min-height: 160px;
+            white-space: pre-line;
+            position: relative;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 0.5rem;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #e5e5e5;
+            border: 1px solid #404040;
+            min-width: 200px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            background-color: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .copy-button {
+            background-color: #4b5563;
+        }
+
+        .copy-button:hover {
+            background-color: #374151;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .copy-feedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .copy-feedback.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 640px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="mb-4">Bullet Point Generator <i class="bi bi-info-circle icon-size" data-toggle="tooltip" title="Made by Ibraheem"></i></h1>
-    <div class="form-group">
-        <label for="paragraphInput">Divider:</label>
-        <textarea class="form-control" id="dividerInput" rows="1">- </textarea>
-      </div>
-    <form id="bulletForm">
-      <div class="form-group">
-        <label for="paragraphInput">Enter your paragraph:</label>
-        <textarea class="form-control" id="paragraphInput" rows="5"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Generate Bullet Points</button>
-    </form>
-    <button id="copyButton" class="btn btn-success">Copy Bullet Points</button>
-    <div id="bulletPoints"></div>
-  </div>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Bullet Point Generator</h1>
+            
+            <div class="input-group">
+                <label class="label">Input Text</label>
+                <textarea id="input" placeholder="Enter your text here. Each line will become a bullet point."></textarea>
+            </div>
 
-  <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <div class="controls">
+                <div class="input-group">
+                    <label class="label">Bullet Style</label>
+                    <select id="bulletStyle">
+                        <option value="dot">• Dot</option>
+                        <option value="dash">- Dash</option>
+                        <option value="numbered">1. Numbered</option>
+                    </select>
+                </div>
+            </div>
 
-  <script>
-    $(document).ready(function () {
-      $('#bulletForm').submit(function (event) {
-        event.preventDefault();
-        generateBulletPoints();
-      });
+            <div class="input-group">
+                <div class="output-header">
+                    <label class="label">Output</label>
+                    <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+                </div>
+                <div id="output" class="output-area"></div>
+                <div id="copyFeedback" class="copy-feedback">Copied to clipboard!</div>
+            </div>
+        </div>
+    </div>
 
-      $('#copyButton').click(function() {
-        copyToClipboard($('#bulletPoints').text()); 
-      });
+    <script>
+        const bulletStyles = {
+            dot: '•',
+            dash: '-',
+        };
 
-      function generateBulletPoints() {
-        var paragraph = $('#paragraphInput').val().trim();
-        var divider = $('#dividerInput').val();
-        var paragraphs = paragraph.split('\n');
-        var bulletList = '<ul class="list-group">';
-        for (var i = 0; i < paragraphs.length; i++) {
-          bulletList += '<li class="list-group-item">' + (i + 1) + divider + capitalizeFirstLetter(paragraphs[i]) + '</li>\n';
+        function generateBullets() {
+            const input = document.getElementById('input').value;
+            const style = document.getElementById('bulletStyle').value;
+            const output = document.getElementById('output');
+            
+            if (!input.trim()) {
+                output.textContent = '';
+                return;
+            }
+
+            const lines = input
+                .split('\n')
+                .filter(line => line.trim());
+
+            let formattedLines;
+            
+            if (style === 'numbered') {
+                formattedLines = lines
+                    .map((line, index) => `${index + 1}. ${line.trim()}`)
+                    .join('\n');
+            } else {
+                const bullet = bulletStyles[style];
+                formattedLines = lines
+                    .map(line => `${bullet} ${line.trim()}`)
+                    .join('\n');
+            }
+
+            output.textContent = formattedLines;
         }
-        bulletList += '</ul>';
-        $('#bulletPoints').html(bulletList);
-      }
 
-      function copyToClipboard(text) {
-        var $temp = $("<textarea>");
-        $("body").append($temp);
-        $temp.val(text).select();
-        document.execCommand("copy");
-        $temp.remove();
-      }
-      function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-       }
-    });
-    $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-  });
-  </script>
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            const feedback = document.getElementById('copyFeedback');
+            const outputText = output.textContent;
+            
+            // Create a temporary textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = outputText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = 0;
+            document.body.appendChild(textarea);
+            
+            // Select and copy the text
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Remove the temporary textarea
+            document.body.removeChild(textarea);
+            
+            // Show feedback
+            feedback.classList.add('show');
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 2000);
+        }
+
+        // Auto-resize textarea
+        const textarea = document.getElementById('input');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+            generateBullets();
+        });
+
+        // Generate on style change
+        document.getElementById('bulletStyle').addEventListener('change', generateBullets);
+    </script>
 </body>
 </html>
